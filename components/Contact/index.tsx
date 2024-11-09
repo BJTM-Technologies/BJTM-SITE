@@ -1,6 +1,39 @@
+'use client'
+import { useState } from "react";
 import NewsLatterBox from "./NewsLatterBox";
 
 const Contact = () => {
+
+  const [to, setTo] = useState('');
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+  const [status, setStatus] = useState<string | null>(null);
+
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const res = await fetch('/api/sendEmail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ to, subject, text: message }),
+      });
+
+      const result = await res.json();
+      if (res.ok) {
+        setStatus('Email sent successfully!');
+      } else {
+        setStatus(`Failed to send email: ${result.message}`);
+      }
+    } catch (error) {
+      console.error(error);
+      setStatus('An error occurred while sending the email.');
+    }
+  };
+
+
   return (
     <section id="contact" className="overflow-hidden py-16 md:py-20 lg:py-28">
       <div className="container">
@@ -17,7 +50,7 @@ const Contact = () => {
               <p className="mb-12 text-base font-medium text-body-color">
                 Our support team will get back to you ASAP via email.
               </p>
-              <form>
+              <form onSubmit={handleSubmit}>
                 <div className="-mx-4 flex flex-wrap">
                   <div className="w-full px-4 md:w-1/2">
                     <div className="mb-8">
