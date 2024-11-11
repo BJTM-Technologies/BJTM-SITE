@@ -1,44 +1,85 @@
 "use client";
 
 import { useTheme } from "next-themes";
+import { useState } from "react";
 
 const NewsLatterBox = () => {
   const { theme } = useTheme();
 
+  const [formData, setFormData] = useState({ name: "", email: "" });
+  const [status, setStatus] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("Sending...");
+
+    const res = await fetch("/api/newsletter", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ formData }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      setStatus("Successfully subscribed!");
+      setFormData({ name: "", email: "" }); //clear input
+    } else {
+      setStatus(`Error: ${data.message}`);
+    }
+  };
+
   return (
     <div
-      className="wow fadeInUp shadow-three dark:bg-gray-dark relative z-10 rounded-sm bg-white p-8 sm:p-11 lg:p-8 xl:p-11"
+      className="wow fadeInUp relative z-10 rounded-sm bg-white p-8 shadow-three dark:bg-gray-dark sm:p-11 lg:p-8 xl:p-11"
       data-wow-delay=".2s"
     >
       <h3 className="mb-4 text-2xl font-bold leading-tight text-black dark:text-white">
         Subscribe to receive future updates
       </h3>
       <p className="mb-11 border-b border-body-color border-opacity-25 pb-11 text-base leading-relaxed text-body-color dark:border-white dark:border-opacity-25">
-        Lorem ipsum dolor sited Sed ullam corper consectur adipiscing Mae ornare
-        massa quis lectus.
+        We will keep you abreast of Updates from our end.
       </p>
-      <div>
+      <form>
         <input
           type="text"
           name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
           placeholder="Enter your name"
-          className="border-stroke dark:text-body-color-dark dark:shadow-two mb-4 w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+          className="mb-4 w-full rounded-sm border border-stroke bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:shadow-two dark:focus:border-primary dark:focus:shadow-none"
         />
         <input
           type="email"
           name="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
           placeholder="Enter your email"
-          className="border-stroke dark:text-body-color-dark dark:shadow-two mb-4 w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+          className="mb-4 w-full rounded-sm border border-stroke bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:shadow-two dark:focus:border-primary dark:focus:shadow-none"
         />
         <input
           type="submit"
           value="Subscribe"
-          className="shadow-submit dark:shadow-submit-dark mb-5 flex w-full cursor-pointer items-center justify-center rounded-sm bg-primary px-9 py-4 text-base font-medium text-white duration-300 hover:bg-primary/90"
+          className="mb-5 flex w-full cursor-pointer items-center justify-center rounded-sm bg-primary px-9 py-4 text-base font-medium text-white shadow-submit duration-300 hover:bg-primary/90 dark:shadow-submit-dark"
         />
-        <p className="dark:text-body-color-dark text-center text-base leading-relaxed text-body-color">
+        <p>{status}</p>
+        <p className="text-center text-base leading-relaxed text-body-color dark:text-body-color-dark">
           No spam guaranteed, So please don’t send any spam mail.
         </p>
-      </div>
+
+      </form>
 
       <div>
         <span className="absolute left-2 top-7">
