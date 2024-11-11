@@ -30,8 +30,10 @@ const Footer = () => {
                   />
                 </Link>
                 <p className="mb-9 text-base leading-relaxed text-body-color dark:text-body-color-dark">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Integer lobortis.
+                  Your trusted partner in software development and SaaS
+                  solutions. We specialize in creating innovative applications
+                  that enhance operational efficiency and elevate user
+                  experiences across various industries.
                 </p>
                 <div className="flex items-center">
                   <a
@@ -200,7 +202,7 @@ const Footer = () => {
           <div className="h-px w-full bg-gradient-to-r from-transparent via-[#D2D8E183] to-transparent dark:via-[#959CB183]"></div>
           <div className="py-8">
             <p className="text-center text-base text-body-color dark:text-white">
-            © {new Date().getFullYear()} Copyright by BJTM-Technologies
+              © {new Date().getFullYear()} Copyright by BJTM-Technologies
             </p>
           </div>
         </div>
