@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import NewsLatterBox from "./NewsLatterBox";
+import { sendContactForm } from "@/lib/api/sendEmail";
 
 const initialValues = { name: "", email: "", subject: "", message: "" };
 const initialState = { values: initialValues, isLoading: false };
@@ -9,7 +10,6 @@ const Contact = () => {
   const [state, setState] = useState(initialState);
   const [status, setStatus] = useState<string | null>(null);
   const { values, isLoading } = state;
-
 
   const handleChange = ({ target }) =>
     setState((prev) => ({
@@ -23,28 +23,19 @@ const Contact = () => {
     setStatus(null);
 
     try {
-      const res = await fetch("/api/sendEmail", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          to: values.email,
-          subject: values.subject,
-          text: values.message,
-        }),
-      });
-
-      const result = await res.json();
-      if (res.ok) {
-        setStatus("Email sent successfully!");
-        setState(initialState); // Reset form after success
-      } else {
-        setStatus(`Failed to send email: ${result.message}`);
-      }
+      // Send form data
+      await sendContactForm(values);
+      setStatus("Email sent successfully!");
+      setState({ values: initialValues, isLoading: false }); // Reset form and loading state
+     
+      // Reset status after success
+      setTimeout(() => {
+        setStatus(null); 
+      }, 3000);
     } catch (error) {
       console.error(error);
-      setStatus("An error occurred while sending the email.");
-    } finally {
-      setState((prev) => ({ ...prev, isLoading: false }));
+      setStatus("Failed to send email. Please try again.");
+      setState((prev) => ({ ...prev, isLoading: false })); // Reset loading state only on error
     }
   };
 
@@ -53,7 +44,10 @@ const Contact = () => {
       <div className="container">
         <div className="-mx-4 flex flex-wrap">
           <div className="w-full px-4 lg:w-7/12 xl:w-8/12">
-            <div className="wow fadeInUp mb-12 rounded-sm bg-white px-8 py-11 shadow-three dark:bg-gray-dark sm:p-[55px] lg:mb-5 lg:px-8 xl:p-[55px]" data-wow-delay=".15s">
+            <div
+              className="wow fadeInUp mb-12 rounded-sm bg-white px-8 py-11 shadow-three dark:bg-gray-dark sm:p-[55px] lg:mb-5 lg:px-8 xl:p-[55px]"
+              data-wow-delay=".15s"
+            >
               <h2 className="mb-3 text-2xl font-bold text-black dark:text-white sm:text-3xl lg:text-2xl xl:text-3xl">
                 Need Help? Open a Ticket
               </h2>
@@ -66,7 +60,10 @@ const Contact = () => {
                   {/* Name Input */}
                   <div className="w-full px-4 md:w-1/2">
                     <div className="mb-8">
-                      <label htmlFor="name" className="mb-3 block text-sm font-medium text-dark dark:text-white">
+                      <label
+                        htmlFor="name"
+                        className="mb-3 block text-sm font-medium text-dark dark:text-white"
+                      >
                         Your Name
                       </label>
                       <input
@@ -84,7 +81,10 @@ const Contact = () => {
                   {/* Email Input */}
                   <div className="w-full px-4 md:w-1/2">
                     <div className="mb-8">
-                      <label htmlFor="email" className="mb-3 block text-sm font-medium text-dark dark:text-white">
+                      <label
+                        htmlFor="email"
+                        className="mb-3 block text-sm font-medium text-dark dark:text-white"
+                      >
                         Your Email
                       </label>
                       <input
@@ -102,7 +102,10 @@ const Contact = () => {
                   {/* Subject Input */}
                   <div className="w-full px-4">
                     <div className="mb-8">
-                      <label htmlFor="subject" className="mb-3 block text-sm font-medium text-dark dark:text-white">
+                      <label
+                        htmlFor="subject"
+                        className="mb-3 block text-sm font-medium text-dark dark:text-white"
+                      >
                         Subject
                       </label>
                       <input
@@ -120,7 +123,10 @@ const Contact = () => {
                   {/* Message Textarea */}
                   <div className="w-full px-4">
                     <div className="mb-8">
-                      <label htmlFor="message" className="mb-3 block text-sm font-medium text-dark dark:text-white">
+                      <label
+                        htmlFor="message"
+                        className="mb-3 block text-sm font-medium text-dark dark:text-white"
+                      >
                         Your Message
                       </label>
                       <textarea
@@ -140,16 +146,26 @@ const Contact = () => {
                     <button
                       type="submit"
                       className="rounded-sm bg-primary px-9 py-4 text-base font-medium text-white shadow-submit duration-300 hover:bg-primary/90 dark:shadow-submit-dark"
-                      disabled={!values.name || !values.email || !values.message || !values.subject || isLoading}
+                      disabled={
+                        !values.name ||
+                        !values.email ||
+                        !values.message ||
+                        !values.subject ||
+                        isLoading
+                      }
                     >
-                      {isLoading ? 'Sending...' : 'Submit Ticket'}
+                      {isLoading ? "Sending..." : "Submit Ticket"}
                     </button>
                   </div>
                 </div>
               </form>
 
               {/* Status Message */}
-              {status && <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">{status}</p>}
+              {status && (
+                <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+                  {status}
+                </p>
+              )}
             </div>
           </div>
 
