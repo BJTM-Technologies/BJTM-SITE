@@ -2,13 +2,14 @@
 import { useState } from "react";
 import NewsLatterBox from "./NewsLatterBox";
 import { sendContactForm } from "@/lib/api/sendEmail";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const initialValues = { name: "", email: "", subject: "", message: "" };
 const initialState = { values: initialValues, isLoading: false };
 
 const Contact = () => {
   const [state, setState] = useState(initialState);
-  const [status, setStatus] = useState<string | null>(null);
   const { values, isLoading } = state;
 
   const handleChange = ({ target }) =>
@@ -20,21 +21,17 @@ const Contact = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     setState((prev) => ({ ...prev, isLoading: true }));
-    setStatus(null);
+  
 
     try {
       // Send form data
       await sendContactForm(values);
-      setStatus("Email sent successfully!");
+      toast.success("Email sent successfully!");
       setState({ values: initialValues, isLoading: false }); // Reset form and loading state
      
-      // Reset status after success
-      setTimeout(() => {
-        setStatus(null); 
-      }, 3000);
-    } catch (error) {
+      } catch (error) {
       console.error(error);
-      setStatus("Failed to send email. Please try again.");
+      toast.error("Failed to send email. Please try again.");
       setState((prev) => ({ ...prev, isLoading: false })); // Reset loading state only on error
     }
   };
@@ -42,7 +39,7 @@ const Contact = () => {
   return (
     <section id="contact" className="overflow-hidden py-16 md:py-20 lg:py-28">
       <div className="container">
-        <div className="-mx-4 flex flex-wrap">
+        <div className="-mx-4 flex flex-wrap justify-center">
           <div className="w-full px-4 lg:w-7/12 xl:w-8/12">
             <div
               className="wow fadeInUp mb-12 rounded-sm bg-white px-8 py-11 shadow-three dark:bg-gray-dark sm:p-[55px] lg:mb-5 lg:px-8 xl:p-[55px]"
@@ -160,19 +157,14 @@ const Contact = () => {
                 </div>
               </form>
 
-              {/* Status Message */}
-              {status && (
-                <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-                  {status}
-                </p>
-              )}
+              <ToastContainer />
             </div>
           </div>
 
           {/* NewsLatterBox */}
-          <div className="w-full px-4 lg:w-5/12 xl:w-4/12">
+          {/* <div className="w-full px-4 lg:w-5/12 xl:w-4/12">
             <NewsLatterBox />
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
