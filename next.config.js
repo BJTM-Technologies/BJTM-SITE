@@ -1,10 +1,13 @@
 /** @type {import('next').NextConfig} */
+require('dotenv').config();
 const nextConfig = {
+  output: "export",
   images: {
+    unoptimized: true, // Disable image optimization for static exports
     domains: [
       "localhost",
       "img.shields.io",
-      "unsplash.com" // Add any other domains as needed
+      "unsplash.com", // Add any other domains as needed
     ],
     dangerouslyAllowSVG: true, // Allow SVG images
     remotePatterns: [

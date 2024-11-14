@@ -8,19 +8,19 @@ export async function POST(req: Request) {
 
     // Create a Nodemailer transporter using your email service configuration
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
+      host: process.env.NEXT_PUBLIC_SMTP_HOST,
+      port: Number(process.env.NEXT_PUBLIC_SMTP_PORT),
       secure: true,
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
+        user: process.env.NEXT_PUBLIC_SMTP_USER,
+        pass: process.env.NEXT_PUBLIC_SMTP_PASS,
       },
     });
 
     // Define the email options (from, to, subject, and body)
     const mailOptions = {
       from: email, // Sender email address
-      to: process.env.SMTP_USER,
+      to: process.env.NEXT_PUBLIC_SMTP_USER,
       subject: subject,
       text: `Message from: ${name}\nEmail: ${email}\n\n${message}\n\nSubject:${subject}`,
       html: `<p><strong>Message from:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p><strong>Message:</strong> ${message}</p><p><strong>Subject:</strong> ${subject}</p>`,
