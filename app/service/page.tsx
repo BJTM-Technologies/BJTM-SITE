@@ -1,3 +1,4 @@
+
 import SingleBlog from "@/components/Service/SingleBlog";
 import blogData from "@/components/Service/serviceData";
 import Breadcrumb from "@/components/Common/Breadcrumb";
@@ -20,7 +21,9 @@ const Blog = () => {
 
       <section className="pb-[120px] pt-[120px]">
         <div className="container">
-          <div className="-mx-4 flex flex-wrap justify-start">
+          <div 
+          
+          className="-mx-4 flex flex-wrap justify-start">
             {blogData.map((service) => (
               <div
                 key={service.id}

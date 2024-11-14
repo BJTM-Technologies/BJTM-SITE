@@ -1,3 +1,4 @@
+"use client";
 import { Service } from "@/types/service";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,7 +19,13 @@ const SingleBlog = ({ service }: { service: Service }) => {
         >
           <Image src={image} alt="image" fill className="object-cover" />
         </Link>
-        <div className="flex h-56 flex-col justify-between p-6 sm:p-8 md:px-6 md:py-8 lg:p-8 xl:px-5 xl:py-8 2xl:p-8">
+        <motion.div
+          variants={fadeIn("up", 0.2)}
+          initial="hidden"
+          whileInView={"show"}
+          viewport={{ once: false, amount: 0.5 }}
+          className="flex h-56 flex-col justify-between p-6 sm:p-8 md:px-6 md:py-8 lg:p-8 xl:px-5 xl:py-8 2xl:p-8"
+        >
           {" "}
           {/* Fixed height */}
           <h3>
@@ -32,7 +39,7 @@ const SingleBlog = ({ service }: { service: Service }) => {
           <p className="mb-6 border-b border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
             {paragraph}
           </p>
-        </div>
+        </motion.div>
       </div>
     </>
   );
