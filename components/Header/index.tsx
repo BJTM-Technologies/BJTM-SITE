@@ -49,20 +49,20 @@ const Header = () => {
       >
         <div className="container">
           <div className="relative -mx-4 flex items-center justify-between">
-            <div className="w-60 max-w-full px-4 xl:mr-12">
+            <div className="w-40 max-w-full px-4 xl:mr-12">
               <Link
                 href="/"
                 className={`header-logo block w-full ${
                   sticky ? "py-5 lg:py-2" : "py-8"
                 } `}
               >
-                <Image
+                {/* <Image
                   src="/images/logo/logo-2.svg"
                   alt="logo"
                   width={140}
                   height={30}
                   className="w-full dark:hidden"
-                />
+                /> */}
                 <Image
                   src="/images/logo/logo.svg"
                   alt="logo"
