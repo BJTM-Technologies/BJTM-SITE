@@ -1,13 +1,15 @@
 import { Service } from "@/types/service";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { fadeIn } from "../motion/variants";
 
 const SingleBlog = ({ service }: { service: Service }) => {
   const { title, image, paragraph } = service;
   return (
     <>
       <div
-        className="wow fadeInUp hover:shadow-two dark:hover:shadow-gray-dark group relative overflow-hidden rounded-sm bg-white shadow-one duration-300 dark:bg-dark mb-4"
+        className="wow fadeInUp group relative mb-4 overflow-hidden rounded-sm bg-white shadow-one duration-300 hover:shadow-two dark:bg-dark dark:hover:shadow-gray-dark"
         data-wow-delay=".1s"
       >
         <Link
@@ -16,7 +18,9 @@ const SingleBlog = ({ service }: { service: Service }) => {
         >
           <Image src={image} alt="image" fill className="object-cover" />
         </Link>
-        <div className="p-6 sm:p-8 md:px-6 md:py-8 lg:p-8 xl:px-5 xl:py-8 2xl:p-8 flex flex-col justify-between h-56"> {/* Fixed height */}
+        <div className="flex h-56 flex-col justify-between p-6 sm:p-8 md:px-6 md:py-8 lg:p-8 xl:px-5 xl:py-8 2xl:p-8">
+          {" "}
+          {/* Fixed height */}
           <h3>
             <Link
               href="/service-details"

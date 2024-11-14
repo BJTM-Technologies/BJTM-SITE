@@ -23,7 +23,7 @@ const serviceData: Service[] = [
     id: 4,
     title: "API Development",
     paragraph: "Building secure and efficient RESTful APIs that enable seamless communication between frontend and backend systems.",
-    image: "/images/blog/blog-04.jpg", // Reusing existing blog image
+    image: "/images/blog/blog-16.jpg", // Reusing existing blog image
   },
   {
     id: 5,
