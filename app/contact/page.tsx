@@ -12,11 +12,19 @@ export const metadata: Metadata = {
 const ContactPage = () => {
   return (
     <>
-      <Breadcrumb
-        pageName="Contact Page"
-        description="Get in touch with us"
-      />
-
+      <Breadcrumb pageName="Contact Page" description="Get in touch with us" />
+      <div className="container">
+        <p className="">
+          <a href="mailto:support@bjtmtechnologies.com">
+            Click to send us a mail directly
+          </a>
+        </p>
+        <p>
+          <a aria-label="Chat on WhatsApp" href="https://wa.me/1XXXXXXXXXX">
+            <img alt="Chat on WhatsApp" src="WhatsAppButtonGreenLarge.svg" />
+          </a>
+        </p>
+      </div>
       <Contact />
     </>
   );

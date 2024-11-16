@@ -1,9 +1,8 @@
 "use client";
 import { useState } from "react";
 import NewsLatterBox from "./NewsLatterBox";
-import { sendContactForm } from "@/lib/api/sendEmail";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 const initialValues = { name: "", email: "", subject: "", message: "" };
 const initialState = { values: initialValues, isLoading: false };
@@ -21,19 +20,53 @@ const Contact = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     setState((prev) => ({ ...prev, isLoading: true }));
-  
 
-    try {
-      // Send form data
-      await sendContactForm(values);
-      toast.success("Email sent successfully!");
-      setState({ values: initialValues, isLoading: false }); // Reset form and loading state
-     
-      } catch (error) {
-      console.error(error);
-      toast.error("Failed to send email. Please try again.");
-      setState((prev) => ({ ...prev, isLoading: false })); // Reset loading state only on error
-    }
+    const httpStatusMessages: any = {
+      400: "Bad Request - The request could not be understood or was missing required parameters.",
+      401: "Unauthorized - Authentication failed or user does not have permissions for the desired action.",
+      403: "Forbidden - Authentication succeeded, but authenticated user does not have access to the resource.",
+      404: "Not Found - The requested resource could not be found.",
+      500: "Internal Server Error - An error occurred on the server.",
+      502: "Bad Gateway - Invalid response from an upstream server.",
+      503: "Service Unavailable - The server is temporarily unavailable.",
+      // Add more status codes as needed
+    };
+
+    const url = process.env.NEXT_PUBLIC_API_URL;
+    const payload = {
+      to: "support@bjtmtechnologies.com",
+      senderName: values.name,
+      senderEmail: values.email,
+      subject: values.subject,
+      emailBody: values.message,
+    };
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        accept: "/",
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_AUTH_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((res: any) => {
+        console.log(res);
+        if (res?.status != 201) {
+          setState((prev) => ({ ...prev, isLoading: false })); // Reset loading state only on error
+          toast.error(httpStatusMessages[res?.status]);
+        } else {
+          toast.success("Email sent successfully!");
+          setState({ values: initialValues, isLoading: false }); // Reset form and loading state
+        }
+      })
+      .catch((err) => {
+        console.error("err", err);
+        console.error("err?.data", err?.data);
+        console.error("err?.message", err?.message);
+        toast.error("Failed to send email. Please try again.");
+        setState((prev) => ({ ...prev, isLoading: false })); // Reset loading state only on error
+      });
   };
 
   return (
