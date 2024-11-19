@@ -2,6 +2,8 @@
   "name": "startup-nextjs-template",
   "version": "0.2.0",
   "private": true,
+  "homepage": "https://bjtmtechnologies.com/",
+
   "scripts": {
     "dev": "next dev",
     "build": "next build",
