@@ -33,12 +33,13 @@ const Contact = () => {
     };
 
     const url = process.env.NEXT_PUBLIC_API_URL;
+    const restructureEmailBody = `${values.message} \n \n Client Details \n Sender Email: ${values.email} \n Sender Name: ${values.name}`;
     const payload = {
       to: "support@bjtmtechnologies.com",
       senderName: values.name,
       senderEmail: values.email,
       subject: values.subject,
-      emailBody: values.message,
+      emailBody: restructureEmailBody,
     };
 
     fetch(url, {
