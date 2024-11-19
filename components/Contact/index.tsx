@@ -145,7 +145,7 @@ const Contact = () => {
                         value={values.subject}
                         onChange={handleChange}
                         placeholder="Enter the subject of your message"
-                        className="w-full rounded-sm border border-stroke bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:shadow-two dark:focus:border-primary dark:focus:shadow-none"
+                        className="w-full rounded-sm border border-stroke bg-[#f8f8f8] px-4 py-2 text-sm text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:shadow-two dark:focus:border-primary dark:focus:shadow-none sm:px-6 sm:py-3 sm:text-base"
                         required
                       />
                     </div>
